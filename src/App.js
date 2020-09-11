@@ -1,24 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import BoxForm from './components/BoxForm';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import BoxDisplay from './components/BoxDisplay';
 
-function App() {
+const App = props => {
+
+  const [box, setBox] = useState([
+    { color: "red", dimension: 200},
+    { color: "blue", dimension: 200},
+    { color: "purple", dimension: 200},
+  ])
+
+  const handleAddBox = (newBox) => {
+    setBox(oldBox => [...oldBox, newBox]);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <div className="row">
+        <BoxForm handleAddBox={handleAddBox} />
+      </div>
+      <div className="row d-flex justify-content-between flex-wrap">
+        {
+          box.map((b, i) => {
+            return <BoxDisplay
+              color={b.color}
+              dimension={parseInt(b.dimension)}
+              key={i}
+              idx={i}
+            />
+          })
+        }
+      </div>
     </div>
   );
 }
